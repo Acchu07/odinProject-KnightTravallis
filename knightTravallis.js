@@ -33,20 +33,21 @@ function knightPaths(knightCoordinates){
 
 // Traversal which returns an array which contains a counter and nodes visited
 function breadthFirstTraversal(source,destination){
-    const hackQueue = [[source,0]];
+    const hackQueue = [[source,0,null]];
     const arrayKnightCoordinates = []
     while(hackQueue.length !== 0){
         let arrayValues = hackQueue.shift();
         let currentNode = arrayValues.shift();
         let counter = arrayValues.shift();
-        arrayKnightCoordinates.push([currentNode,counter]);
+        let predecessor = arrayValues.shift();
+        arrayKnightCoordinates.push([currentNode,predecessor,counter]);
         if(currentNode === destination){
             return arrayKnightCoordinates
         }
         for (const getKey of knightGraph.get(currentNode)){
             let counterForPaths = counter;
             const keyCoordinates = findCoordinatesOnMap(getKey)
-            hackQueue.push([keyCoordinates,counterForPaths+=1]);
+            hackQueue.push([keyCoordinates,counterForPaths+=1,currentNode]);
         }
     }
     return false;
@@ -65,14 +66,36 @@ function findCoordinatesOnMap(findKey){
     return 'Coordinate not present on Map';
 }
 
-const source = findCoordinatesOnMap([3,3]);
-const destination = findCoordinatesOnMap([4,3]);
+
+function linkPredecessor(knightTraversalCoordinates){     
+    const pathKnightTraveled = [];
+    let findPredecessor = knightTraversalCoordinates[knightTraversalCoordinates.length-1][0];
+    while(findPredecessor !== null){
+        for(const predecessor of knightTraversalCoordinates){
+            const [currentPredecessor,nextPredecessor,] = predecessor;
+            if(findPredecessor === currentPredecessor){
+                pathKnightTraveled.push(findPredecessor);
+                findPredecessor = nextPredecessor;
+                break;                
+            }
+        }
+    }
+
+    return pathKnightTraveled;
+}
+
+const source = findCoordinatesOnMap([0,0]);
+const destination = findCoordinatesOnMap([7,7]);
 
 const knightTraversalCoordinates = breadthFirstTraversal(source,destination);
+const [,,knightTraveled] = knightTraversalCoordinates[knightTraversalCoordinates.length-1]
 
-console.log(knightTraversalCoordinates)
-// console.log(knightGraph.get(...knightTraversalCoordinates[3]));
+const shortestPath = linkPredecessor(knightTraversalCoordinates).reverse();
+console.log(`You made it in ${knightTraveled} moves. Here is your path`)
+console.log(shortestPath);
 
+
+// Thanks to TobyplaystheUke from OdinDiscord for providing help in relation with the linking and pointing out [+-1/+-2]
 
 
 
