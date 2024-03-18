@@ -1,9 +1,7 @@
 //create a graph with its respective nodes 
 
-
 const tempStartLocation = 0
 const tempCountUp = 8
-
 const knightGraph = new Map();
 
  for(let xAxis = tempStartLocation; xAxis < tempCountUp; xAxis++){
@@ -33,12 +31,6 @@ function knightPaths(knightCoordinates){
     knightGraph.set(knightCoordinates,arrayKnightsPath)
 }
 
-// console.log(knightGraph)
-
-
-//Traverse graph to check if traversed node === nodetoReach
-
-
 // Traversal which returns an array which contains a counter and nodes visited
 function breadthFirstTraversal(source,destination){
     const hackQueue = [[source,0]];
@@ -60,7 +52,6 @@ function breadthFirstTraversal(source,destination){
     return false;
     
 }
-
 
 // find coordinateKey which is the array on the map for reference to key
 function findCoordinatesOnMap(findKey){
