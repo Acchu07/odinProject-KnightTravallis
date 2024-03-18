@@ -37,10 +37,9 @@ function knightPaths(knightCoordinates){
 
 
 //Traverse graph to check if traversed node === nodetoReach
-// Managed to push in distance but how would i get the shortest path by default the bottom will increment distance by +1 for every value being pushed into the queue. With counter i know the shortest required amount
-// but how to translate it to the mentioned output
 
 
+// Traversal which returns an array which contains a counter and nodes visited
 function breadthFirstTraversal(source,destination){
     const hackQueue = [[source,0]];
     const arrayKnightCoordinates = []
@@ -49,8 +48,8 @@ function breadthFirstTraversal(source,destination){
         let currentNode = arrayValues.shift();
         let counter = arrayValues.shift();
         arrayKnightCoordinates.push([currentNode,counter]);
-        if(destinationPresent(currentNode,destination)){
-            return arrayKnightCoordinates;
+        if(currentNode === destination){
+            return arrayKnightCoordinates
         }
         for (const getKey of knightGraph.get(currentNode)){
             let counterForPaths = counter;
@@ -60,15 +59,6 @@ function breadthFirstTraversal(source,destination){
     }
     return false;
     
-}
-
-function destinationPresent(source,destination){
-    for (const getKey of knightGraph.get(source)){
-        const keyCoordinates = findCoordinatesOnMap(getKey)
-        if(keyCoordinates === destination){
-            return true;
-        }
-    }
 }
 
 
@@ -84,13 +74,13 @@ function findCoordinatesOnMap(findKey){
     return 'Coordinate not present on Map';
 }
 
-const source = findCoordinatesOnMap([0,0]);
-const destination = findCoordinatesOnMap([1,6]);
+const source = findCoordinatesOnMap([3,3]);
+const destination = findCoordinatesOnMap([4,3]);
 
 const knightTraversalCoordinates = breadthFirstTraversal(source,destination);
 
 console.log(knightTraversalCoordinates)
-console.log(knightGraph.get(...knightTraversalCoordinates[3]));
+// console.log(knightGraph.get(...knightTraversalCoordinates[3]));
 
 
 
