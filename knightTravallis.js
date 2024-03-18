@@ -43,13 +43,14 @@ function knightPaths(knightCoordinates){
 
 function breadthFirstTraversal(source,destination){
     const hackQueue = [[source,0]];
+    const arrayKnightCoordinates = []
     while(hackQueue.length !== 0){
         let arrayValues = hackQueue.shift();
         let currentNode = arrayValues.shift();
         let counter = arrayValues.shift();
-        console.log(`the current node is ${currentNode} and the counter is ${counter}`)
+        arrayKnightCoordinates.push([currentNode,counter]);
         if(destinationPresent(currentNode,destination)){
-            return true;
+            return arrayKnightCoordinates;
         }
         for (const getKey of knightGraph.get(currentNode)){
             let counterForPaths = counter;
@@ -86,10 +87,11 @@ function findCoordinatesOnMap(findKey){
 const source = findCoordinatesOnMap([0,0]);
 const destination = findCoordinatesOnMap([1,6]);
 
-console.log(breadthFirstTraversal(source,destination))
+const knightTraversalCoordinates = breadthFirstTraversal(source,destination);
 
-// const test = findCoordinatesOnMap([1,2]);
-// console.log(knightGraph.get(test));
+console.log(knightTraversalCoordinates)
+console.log(knightGraph.get(...knightTraversalCoordinates[3]));
+
 
 
 
